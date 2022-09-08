@@ -1,6 +1,7 @@
 package com.chriwong.dataannotationsdemo.service;
 
 import com.chriwong.dataannotationsdemo.dto.AuthorDto;
+import com.chriwong.dataannotationsdemo.dto.BookDto;
 import com.chriwong.dataannotationsdemo.model.Author;
 import com.chriwong.dataannotationsdemo.model.Book;
 import com.chriwong.dataannotationsdemo.repository.AuthorRepository;
@@ -20,6 +21,9 @@ public class MyService {
 
     @Autowired
     private BookRepository bookRepository;
+
+    @Autowired
+    private SpellCheckService spellCheckService;
 
     public boolean doUpdates() {
         Author thisShouldBeHemingway = authorRepository.findFirstByLastNameLikeIgnoreCase("hemingway");
@@ -78,6 +82,18 @@ public class MyService {
         return new AuthorDto(singleAuthorWithLastName);
     }
 
+    public BookDto getBook(String title) {
+        Book b = this.bookRepository.findFirstByTitleContainsIgnoreCase(title);
+        if (b == null) {
+            String correctedTitle = this.spellCheckService.basicCorrections(title);
+            b = this.bookRepository.findFirstByTitleContainsIgnoreCase(correctedTitle);
+            if (b == null) {
+                log.error("Could not find book: " + title + ", or anything with a similar title.");
+                return null;
+            }
+        }
+        return new BookDto(b);
+    }
 
     public List<Author> getAllAuthors() {
         List<Author> authors = (List<Author>) this.authorRepository.findAll();

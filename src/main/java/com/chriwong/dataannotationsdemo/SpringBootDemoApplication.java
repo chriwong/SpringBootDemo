@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-public class DataAnnotationsDemoApplication {
+public class SpringBootDemoApplication {
 
-	private static final Logger log = LoggerFactory.getLogger(DataAnnotationsDemoApplication.class);
+	private static final Logger log = LoggerFactory.getLogger(SpringBootDemoApplication.class);
 	
 	public static void main(String[] args) {
-		SpringApplication.run(DataAnnotationsDemoApplication.class, args);
+		SpringApplication.run(SpringBootDemoApplication.class, args);
 	}
 
 	@Bean

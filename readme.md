@@ -15,5 +15,7 @@ It uses Lombok to generate getters/setters/constructors
    * click 'Connect' (there is no password) to view the database
 5) Go to [/update-models](https://localhost:8080/update-models)
 	* notice that some of the `Book` records have their `author_id` updated
-6) Go to [/authors?lastName=hemingway](https://localhost:8080/authors?lastName=hemingway)
-	* notice that the `books` property has values.
+6) Go to [/author?lastName=hemingway](https://localhost:8080/author?lastName=hemingway)
+	* notice that the `books` property has values
+7) Go to [/book?title=farewell](https://localhost:8080/book?title=farewell)
+	* notice that the `author` property has value

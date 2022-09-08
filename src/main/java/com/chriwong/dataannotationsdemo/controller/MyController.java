@@ -1,6 +1,7 @@
 package com.chriwong.dataannotationsdemo.controller;
 
 import com.chriwong.dataannotationsdemo.dto.AuthorDto;
+import com.chriwong.dataannotationsdemo.dto.BookDto;
 import com.chriwong.dataannotationsdemo.service.MyService;
 import com.chriwong.dataannotationsdemo.model.Author;
 import lombok.extern.slf4j.Slf4j;
@@ -36,10 +37,22 @@ public class MyController {
      * @param lastName last name of the desired author.
      * @return An <c>AuthorDto</c>
      */
-    @GetMapping("/authors")
+    @GetMapping("/author")
     public AuthorDto getAuthor(@RequestParam String lastName) {
         AuthorDto dto = myService.getAuthor(lastName);
         log.info(String.format("Got author: %s", dto.getDisplayName()));
+        return dto;
+    }
+
+    /**
+     * Gets the first book from the database with the given title.
+     * @param title title of the book.
+     * @return A <c>BookDto</c>
+     */
+    @GetMapping("/book")
+    public BookDto getBook(@RequestParam String title) {
+        BookDto dto = myService.getBook(title);
+        log.info(String.format("Got book: %s", dto.getTitle()));
         return dto;
     }
 }
