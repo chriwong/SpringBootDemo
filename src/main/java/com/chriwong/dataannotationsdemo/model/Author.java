@@ -24,14 +24,21 @@ public class Author {
     private String lastName;
 
     private Integer birthYear;
-
     private String birthPlace;
-
     private Integer deathYear;
-
     private String deathPlace;
-
     private String education;
+    private String contactInfo;
+    private String workHistory;
+    private String hairColor;
+    private String eyeColor;
+    private int age;
+    private String creditCardNumber;
+    private String creditCardPIN;
+    private String creditCardCVV;
+
+    @ElementCollection
+    private List<String> pseudonyms;
 
     @OneToMany(mappedBy = "author")
     private List<Book> books;

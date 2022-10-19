@@ -13,19 +13,20 @@ public class AuthorDto {
     private String firstName;
     private String lastName;
     private String displayName;
-    private List<String> books;
+    private List<String> titles;
 
     public AuthorDto(Author author) {
         this.firstName = author.getFirstName();
         this.lastName = author.getLastName();
         this.displayName = author.getFirstName() + " " + author.getLastName();
 
-        List<String> bookList = new ArrayList<>();
+        List<String> titleList = new ArrayList<>();
         List<Book> authorBooks = author.getBooks();
+
         for (int i=0; i < authorBooks.size(); i++) {
-            bookList.add(authorBooks.get(i).getTitle());
+            titleList.add(authorBooks.get(i).getTitle());
         }
-        this.books = bookList;
+        this.titles = titleList;
     }
 
 }

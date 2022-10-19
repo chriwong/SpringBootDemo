@@ -1,14 +1,13 @@
 package com.chriwong.dataannotationsdemo.controller;
 
+import com.chriwong.dataannotationsdemo.client.NobelPrize;
 import com.chriwong.dataannotationsdemo.dto.AuthorDto;
 import com.chriwong.dataannotationsdemo.dto.BookDto;
 import com.chriwong.dataannotationsdemo.service.MyService;
-import com.chriwong.dataannotationsdemo.model.Author;
+import com.chriwong.dataannotationsdemo.service.NobelService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -18,6 +17,8 @@ public class MyController {
 
     @Autowired
     private MyService myService;
+    @Autowired
+    private NobelService nobelService;
 
     /**
      * Attempts to "link" the database entries for Ernest Hemingway and the books he wrote
@@ -54,5 +55,12 @@ public class MyController {
         BookDto dto = myService.getBook(title);
         log.info(String.format("Got book: %s", dto.getTitle()));
         return dto;
+    }
+
+    @GetMapping("/nobel-prizes")
+    public List<NobelPrize> getNBPrizes(
+            @RequestParam(required = false, defaultValue = "1997") Integer year,
+            @RequestParam(required = false, defaultValue = "phy") String category) {
+        return nobelService.getNobelLaureates(year, category);
     }
 }
