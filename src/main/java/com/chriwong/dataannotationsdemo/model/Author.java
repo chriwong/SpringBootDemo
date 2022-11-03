@@ -32,6 +32,7 @@ public class Author {
     private String workHistory;
     private String hairColor;
     private String eyeColor;
+//    private String shoelaceColor;
     private int age;
     private String creditCardNumber;
     private String creditCardPIN;

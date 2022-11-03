@@ -59,4 +59,5 @@ public class SpringBootDemoApplication {
 			log.info("Finished seeding Books.\n");
 		};
 	}
+
 }

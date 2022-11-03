@@ -59,8 +59,17 @@ public class MyController {
 
     @GetMapping("/nobel-prizes")
     public List<NobelPrize> getNBPrizes(
-            @RequestParam(required = false, defaultValue = "1997") Integer year,
-            @RequestParam(required = false, defaultValue = "phy") String category) {
-        return nobelService.getNobelLaureates(year, category);
+            @RequestParam(required = false, defaultValue = "1997") int year,
+            @RequestParam(required = false, defaultValue = "phy") String category,
+            @RequestParam(required = false, defaultValue = "10") int limit) {
+        log.debug("- Request\n--- Endpoint: /nobel-prizes\n\n--- Query parameters:\n--- year: {}\n--- category: {}\n--- limit: {}", year, category, limit);
+        return nobelService.getNobelPrizes(year, category, limit);
+    }
+
+    // Example of Create CRUD operation
+    @PostMapping("/create-book/{id}")
+    public boolean createBook(@RequestBody BookDto book, @PathVariable String id) {
+        // if success, return true
+        return false;
     }
 }

@@ -24,9 +24,7 @@ public class Book {
     private int publishYear;
 
     private String publisher;
-
     private Integer reviewRating;
-
     private String reviewDescription;
 
     @ManyToOne
