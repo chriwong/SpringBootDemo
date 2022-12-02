@@ -1,24 +1,18 @@
 package com.chriwong.dataannotationsdemo.controller;
 
-import com.chriwong.dataannotationsdemo.client.NobelPrize;
-import com.chriwong.dataannotationsdemo.dto.AuthorDto;
-import com.chriwong.dataannotationsdemo.dto.BookDto;
-import com.chriwong.dataannotationsdemo.service.MyService;
-import com.chriwong.dataannotationsdemo.service.NobelService;
+import com.chriwong.dataannotationsdemo.service.UpdaterService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @Slf4j
 public class MyController {
 
-    @Autowired
-    private MyService myService;
-    @Autowired
-    private NobelService nobelService;
+    private final UpdaterService updaterService;
+
+    public MyController(UpdaterService updaterService) {
+        this.updaterService = updaterService;
+    }
 
     /**
      * Attempts to "link" the database entries for Ernest Hemingway and the books he wrote
@@ -27,49 +21,10 @@ public class MyController {
      */
     @GetMapping("/update-models")
     public String updateModels() {
-        boolean success = myService.doUpdates();
+        boolean success = updaterService.doUpdates();
         return success
             ? "Successfully updated Ernest Hemingway with his books"
             : "Failed to update...";
     }
 
-    /**
-     * Gets the first author from the database with the given last name.
-     * @param lastName last name of the desired author.
-     * @return An <c>AuthorDto</c>
-     */
-    @GetMapping("/author")
-    public AuthorDto getAuthor(@RequestParam String lastName) {
-        AuthorDto dto = myService.getAuthor(lastName);
-        log.info(String.format("Got author: %s", dto.getDisplayName()));
-        return dto;
-    }
-
-    /**
-     * Gets the first book from the database with the given title.
-     * @param title title of the book.
-     * @return A <c>BookDto</c>
-     */
-    @GetMapping("/book")
-    public BookDto getBook(@RequestParam String title) {
-        BookDto dto = myService.getBook(title);
-        log.info(String.format("Got book: %s", dto.getTitle()));
-        return dto;
-    }
-
-    @GetMapping("/nobel-prizes")
-    public List<NobelPrize> getNBPrizes(
-            @RequestParam(required = false, defaultValue = "1997") int year,
-            @RequestParam(required = false, defaultValue = "phy") String category,
-            @RequestParam(required = false, defaultValue = "10") int limit) {
-        log.debug("- Request\n--- Endpoint: /nobel-prizes\n\n--- Query parameters:\n--- year: {}\n--- category: {}\n--- limit: {}", year, category, limit);
-        return nobelService.getNobelPrizes(year, category, limit);
-    }
-
-    // Example of Create CRUD operation
-    @PostMapping("/create-book/{id}")
-    public boolean createBook(@RequestBody BookDto book, @PathVariable String id) {
-        // if success, return true
-        return false;
-    }
 }

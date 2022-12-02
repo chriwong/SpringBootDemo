@@ -11,6 +11,7 @@ public class BookDto {
     private String author;
 
     public BookDto(Book book) {
+        if (book == null) return;
         this.title = book.getTitle();
         this.publishYear = book.getPublishYear();
         this.author = book.getAuthor().getFirstName() + " " + book.getAuthor().getLastName();

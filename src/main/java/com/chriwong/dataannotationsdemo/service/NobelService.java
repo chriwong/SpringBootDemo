@@ -15,7 +15,9 @@ public class NobelService {
 
     private static final String laureatesEndpoint = "/laureates";
     private static final String prizesEndpoint = "/nobelPrizes";
-    private WebClient client;
+
+    // See BeanConfiguration.java for WebClient setup
+    private final WebClient client;
 
     @Autowired
     public NobelService(WebClient client) {

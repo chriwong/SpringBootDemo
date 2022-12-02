@@ -3,9 +3,11 @@ This is a super simple interface-less CRUD application to demonstrate a few comm
 
 This project uses Spring Boot, Spring Web, and Spring Data JPA.
 
-For now it uses an in-memory H2 database, so anyone can get up and running.
+For now it uses an in-memory H2 database, so anyone can get up and running without the hassle of installing database software.
 
-It uses Lombok to generate getters/setters/constructors
+It uses Lombok to generate getters/setters/constructors, so you won't see those in the source (they're generated at compile-time (I think))
+
+*Edit 2022-12-02: In the process of adding a service to use the publicly available [Nobel Prize API](https://www.nobelprize.org/about/developer-zone-2/).*
 
 ## Instructions
 1) Clone the repository

@@ -1,7 +1,5 @@
 package com.chriwong.dataannotationsdemo.service;
 
-import com.chriwong.dataannotationsdemo.dto.AuthorDto;
-import com.chriwong.dataannotationsdemo.dto.BookDto;
 import com.chriwong.dataannotationsdemo.model.Author;
 import com.chriwong.dataannotationsdemo.model.Book;
 import com.chriwong.dataannotationsdemo.repository.AuthorRepository;
@@ -10,23 +8,20 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @Slf4j
-public class MyService {
+public class UpdaterService {
 
-    @Autowired
-    private AuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
 
-    @Autowired
-    private BookRepository bookRepository;
-
-    @Autowired
-    private SpellCheckService spellCheckService;
+    public UpdaterService(AuthorRepository authorRepository, BookRepository bookRepository) {
+        this.authorRepository = authorRepository;
+        this.bookRepository = bookRepository;
+    }
 
     public boolean doUpdates() {
-        Author thisShouldBeHemingway = authorRepository.findFirstByLastNameLikeIgnoreCase("hemingway");
+        Author thisShouldBeHemingway = authorRepository.findByLastNameContainingIgnoreCase("hemingway").get(0);
         if (thisShouldBeHemingway == null) {
             log.error("Could not find Hemingway");
             return false;
@@ -73,37 +68,4 @@ public class MyService {
         return true;
     }
 
-    public AuthorDto getAuthor(String lastName) {
-        Author singleAuthorWithLastName = authorRepository.findFirstByLastNameLikeIgnoreCase(lastName);
-        if (singleAuthorWithLastName == null) {
-            log.error("Could not find author with last name: " + lastName);
-            return null;
-        }
-        return new AuthorDto(singleAuthorWithLastName);
-    }
-
-    public BookDto getBook(String title) {
-        Book b = this.bookRepository.findFirstByTitleContainsIgnoreCase(title);
-        if (b == null) {
-            String correctedTitle = this.spellCheckService.basicCorrections(title);
-            b = this.bookRepository.findFirstByTitleContainsIgnoreCase(correctedTitle);
-            if (b == null) {
-                log.error("Could not find book: " + title + ", or anything with a similar title.");
-                return null;
-            }
-        }
-        return new BookDto(b);
-    }
-
-    public List<Author> getAllAuthors() {
-        List<Author> authors = (List<Author>) this.authorRepository.findAll();
-        log.info("Got authors from repository: " + authors);
-        return authors;
-    }
-
-    public List<Book> getAllBooks() {
-        List<Book> allBooks = this.bookRepository.findAll();
-        log.info("Got books from repository: " + allBooks.stream().map(book -> book.getTitle() + " ").reduce("", String::concat));
-        return allBooks;
-    }
 }
